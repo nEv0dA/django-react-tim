@@ -1,0 +1,125 @@
+# Created: 2024-08-16
+# Updated: 2024-08-26
+
+= Django & React
+
+* from *https://www.youtube.com/watch?v=c-QsfbznSXI&t=214s*
+* from *https://github.com/techwithtim/Django-React-Full-Stack-App/tree/main*
+
+== Backend Django
+
+* Requirements
+  ** Python3 and Python3-venv packages are required
+  ** Browser
+  ** Visual Studio Code
+* Create the *requirements.txt* file with the following content.
++
+....
+asgiref
+Django
+django-cors-headers
+djangorestframework
+djangorestframework-simplejwt
+PyJWT
+pytz
+sqlparse
+psycopg2-binary
+python-dotenv
+....
+
+* In the root folder of django-react-tim, enter the following commands in a Command Line
++
+----
+# Debian or Parrot Operating System
+python3 -m venv .venv
+# Activate the Virtual Environment
+source .venv/bin/activate
+
+pip install -r requirements.txt
+django-admin startproject backend
+cd backend
+python3 manage.py startapp api
+----
+
+* Appen the following lines in the *backend/backend/settings.py* file.
++
+....
+from datetime import timedelta
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+# Edit the following lines
+ALLOWED_HOSTS = ["*"]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    "api",
+    "rest_framework",
+    "corsheaders",
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+]
+
+# Append at following lines at the end of the file
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWS_CREDENTIALS = True
+....
+
+* After added *serializers.py* file and edited the *views.py* and *urls.py* files,
+  enter the following commands in a Command Line.
++
+----
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
+----
+
+== Frontend React
+
+* In the root folder of django-react-tim, enter the following commands in a Command Line
++
+----
+npm create vite@latest frontend -- --template react
+# type "y" and press "Enter" to proceed.
+cd frontend
+npm install axios react-router-dom jwt-decode
+npm install
+npm run dev
+----
+
+* Delete the *App.css* and *index.css* files inside the *src* folder.
+* Add the *components*, *pages*, and *styles* folders inside the *src* folder.
+* Add the *api.js* and *constants.js* files inside the *src* folder.
+* Create *.env* file inside the *frontend* folder.
+
+# To continue 1:52:48
